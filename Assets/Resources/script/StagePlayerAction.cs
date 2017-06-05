@@ -7,11 +7,10 @@ public class StagePlayerAction {
     private StagePlayer m_StagePlayer = null;
     private GameObject m_PlayerModel = null;
     private Animator m_Animator = null;
-    private Vector3 PlayerDir;
 
     //技能相關
     private SkillPlayer m_SkillPlayer = null;
-    private int NowSkillID = 0;
+    private int m_NowSkillID = 0;
     private int m_SkillStep = 0;
 
     //移動相關
@@ -33,8 +32,6 @@ public class StagePlayerAction {
         m_Animator.applyRootMotion = false;
         //技能相關
         m_SkillPlayer = SkillPlayer.Instance;
-
-        PlayerDir = new Vector3(0, 0, 1);
     }
 
 	// Use this for initialization
@@ -47,7 +44,6 @@ public class StagePlayerAction {
 	public void Update ()
     {
         CheckState();
-        //Debug.Log("Now State " + m_State.ToString());
         //執行
         switch (m_State)
         {
@@ -66,7 +62,7 @@ public class StagePlayerAction {
         }
     }
     void CheckState()
-    {        
+    {
         //接收到技能輸入，切換為技能狀態
         if (true == m_InputAttacking)
         {
@@ -79,7 +75,6 @@ public class StagePlayerAction {
         //如果技能狀態尚未結束，維持技能狀態
         if (true == m_IsAttacking)
         {
-            Debug.Log("Skill Attack");
             m_State = 5;
             return;
         }
@@ -95,7 +90,6 @@ public class StagePlayerAction {
         {
             m_Animator.SetInteger("state", 1);
             m_State = 1;
-            //checkIdle();
             return;
         }
         return;
@@ -107,25 +101,18 @@ public class StagePlayerAction {
     //移動
     void MoveUpdate()
     {
-        Vector3 ZVector = new Vector3(0, 0, 1);
-
         //位移
-        if (m_InputDir.x > 0.01 || m_InputDir.z > 0.01 || m_InputDir.x < -0.01 || m_InputDir.z < -0.01)
-        {
-            m_Player.transform.Translate(m_InputDir, Space.World);
-            m_Animator.SetInteger("state", 2);
-        }
+        m_Player.transform.Translate(m_InputDir, Space.World);
+        m_Animator.SetInteger("state", 2);
         //玩家方向
-        if (m_InputDir.x > 0.01 || m_InputDir.z > 0.01 || m_InputDir.x < -0.01 || m_InputDir.z < -0.01)
-        {
-            float angle = Vector3.Angle(ZVector, m_InputDir);
-            if (m_InputDir.x < 0)
-                angle = angle * -1;
-            Quaternion quate = Quaternion.identity;
-            quate.eulerAngles = new Vector3(0, angle, 0); // 表示設置x軸方向旋轉了angle度
-            //最後再把quate付給你要操作的Gameobject：
-            m_Player.transform.rotation = quate;
-        }
+        Vector3 ZVector = new Vector3(0, 0, 1);
+        float angle = Vector3.Angle(ZVector, m_InputDir);
+        if (m_InputDir.x < 0)
+            angle = angle * -1;
+        Quaternion quate = Quaternion.identity;
+        quate.eulerAngles = new Vector3(0, angle, 0); // 表示設置x軸方向旋轉了angle度
+        //最後再把quate付給你要操作的Gameobject：
+        m_Player.transform.rotation = quate;
     }
     //受擊
     void BeAttackUpdate()
@@ -134,7 +121,7 @@ public class StagePlayerAction {
     //技能施展
     public void SkillUpdate()
     {
-        NormalAttackProcess(NowSkillID);
+        NormalAttackProcess(m_NowSkillID);
 
     }
     
@@ -164,7 +151,7 @@ public class StagePlayerAction {
         SkillAniID = m_SkillPlayer.getSkillAniID(SkillSlot);//讀取技能Animation對應編號
         m_Animator.SetInteger("state", SkillAniID);
         m_SkillStep = 0;
-        NowSkillID = SkillSlot;
+        m_NowSkillID = SkillSlot;
         
 
     }
@@ -173,14 +160,22 @@ public class StagePlayerAction {
     public void NormalAttackProcess(int SkillID)
     {
         AnimatorStateInfo AnimatorInfo = m_Animator.GetCurrentAnimatorStateInfo(0);
-        if (AnimatorInfo.normalizedTime >= 0.5f)
+        if (AnimatorInfo.IsName("Walk"))
+        {
+            Debug.Log("Still Walk");
+            return;
+        }
+        /*else if (AnimatorInfo.normalizedTime >= 0.5f)
+        {
+            m_IsAttacking = false;
+        }*/
+        else if (m_SkillStep == m_SkillPlayer.getAttackPoint(SkillID)+20)
         {
             m_IsAttacking = false;
         }
-        if (m_SkillStep == m_SkillPlayer.getAttackPoint(SkillID))
+        if (m_SkillStep == m_SkillPlayer.getAttackPoint(SkillID))//攻擊點
         {
             CheckAttackRange(m_SkillPlayer.GetAttackRangeFar(SkillID));
-            Debug.Log("attack");
         }
         m_SkillStep++;
     }
