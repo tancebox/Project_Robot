@@ -6,7 +6,7 @@
 		<Lv>1</Lv>
 		<SkillType>NormalAttack</SkillType>
 		<Animation>3</Animation>
-		<AttackRangeFar>7</AttackRangeFar>
+		<AttackRangeFar>9</AttackRangeFar>
 		<AttackPoint>70</AttackPoint>
 		<ContinuePoint>50</ContinuePoint>
 		<EndPoint>50</EndPoint>
