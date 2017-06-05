@@ -14,10 +14,14 @@ public class StagePlayerAction {
     private int NowSkillID = 0;
     private int m_SkillStep = 0;
 
+    //移動相關
+    private Vector3 m_InputDir = new Vector3(0, 0, 0);
+
     //狀態相關
-    private int m_PlayerState = 1; //1:Idle 2:Walk
-    private bool m_IsMoving = false;
-    private bool m_IsAttacking = false;
+    private int m_State = 0; //1:Idle 2:Move 3.BeAttack 5.Skill
+    private bool m_InputMoving = false;//目前有移動輸入進行中
+    private bool m_InputAttacking = false;//目前有攻擊輸入進行中
+    private bool m_IsAttacking = false;//目前正在進行攻擊中
 
 
     public StagePlayerAction(StageMgr StageMgr)
@@ -36,104 +40,135 @@ public class StagePlayerAction {
 	// Use this for initialization
 	void Start ()
     {
-        
+        m_State = 1;
     }
 	
 	// Update is called once per frame
 	public void Update ()
     {
-        if (true == m_IsAttacking)
+        CheckState();
+        //Debug.Log("Now State " + m_State.ToString());
+        //執行
+        switch (m_State)
         {
-            CheckSkill();
+            case 1://待機
+                IdleUpdate();
+                break;
+            case 2://移動
+                MoveUpdate();
+                break;
+            case 3://受擊
+                BeAttackUpdate();
+                break;
+            case 5://攻擊
+                SkillUpdate();
+                break;
         }
     }
-    //移動
-    public void MovePlayer(Vector3 Dir)
-    {
-        Vector3 zeroVector = new Vector3(0, 0, 0);
-        Vector3 ZVector = new Vector3(0, 0, 1);
-
+    void CheckState()
+    {        
+        //接收到技能輸入，切換為技能狀態
+        if (true == m_InputAttacking)
+        {
+            m_InputAttacking = false;
+            m_IsAttacking = true;
+            m_State = 5;
+            Debug.Log("Start Skill");
+            return;
+        }
+        //如果技能狀態尚未結束，維持技能狀態
         if (true == m_IsAttacking)
         {
+            Debug.Log("Skill Attack");
+            m_State = 5;
             return;
         }
 
-        if (Dir.x>0.01 || Dir.z>0.01 || Dir.x < -0.01 || Dir.z <-0.01)
+        //若非技能狀態時，接收到移動輸入，切換或維持移動狀態
+        if (true == m_InputMoving)
         {
-            //Debug.Log("Action X:" + Dir.x.ToString() + " Z:" + Dir.z.ToString());
-            m_Player.transform.Translate(Dir, Space.World);
-            m_Animator.SetInteger("state", 2);
-            m_IsMoving = true;
+            m_State = 2;
+            return;
         }
-        else if(Dir.x< 0.01 && Dir.z <0.01 && Dir.x > -0.01 && Dir.z > -0.01)
+        //若無任何輸入，檢查待機
+        if (false == m_InputAttacking && false == m_InputMoving && false == m_IsAttacking)
         {
-            m_IsMoving = false;
-            //Debug.Log("Call Check Idle");
-            checkIdle();
-            
+            m_Animator.SetInteger("state", 1);
+            m_State = 1;
+            //checkIdle();
+            return;
         }
+        return;
+    }
+    //待機
+    void IdleUpdate()
+    {
+    }
+    //移動
+    void MoveUpdate()
+    {
+        Vector3 ZVector = new Vector3(0, 0, 1);
 
-        if (Dir.x > 0.01 || Dir.z > 0.01 || Dir.x < -0.01 || Dir.z < -0.01)
+        //位移
+        if (m_InputDir.x > 0.01 || m_InputDir.z > 0.01 || m_InputDir.x < -0.01 || m_InputDir.z < -0.01)
         {
-            float angle = Vector3.Angle(ZVector, Dir);
-            if (Dir.x < 0)
+            m_Player.transform.Translate(m_InputDir, Space.World);
+            m_Animator.SetInteger("state", 2);
+        }
+        //玩家方向
+        if (m_InputDir.x > 0.01 || m_InputDir.z > 0.01 || m_InputDir.x < -0.01 || m_InputDir.z < -0.01)
+        {
+            float angle = Vector3.Angle(ZVector, m_InputDir);
+            if (m_InputDir.x < 0)
                 angle = angle * -1;
             Quaternion quate = Quaternion.identity;
             quate.eulerAngles = new Vector3(0, angle, 0); // 表示設置x軸方向旋轉了angle度
             //最後再把quate付給你要操作的Gameobject：
             m_Player.transform.rotation = quate;
         }
+    }
+    //受擊
+    void BeAttackUpdate()
+    {
+    }
+    //技能施展
+    public void SkillUpdate()
+    {
+        NormalAttackProcess(NowSkillID);
 
+    }
+    
+    //收到移動
+    public void ReceiveMoveInput(Vector3 Dir, bool isInput)
+    {
+        //設定方向與狀態參數
+        if (true == isInput)
+        {
+            m_InputDir = Dir;
+            m_InputMoving = true;
+        }
+        else
+            m_InputMoving = false;
 
     }
 
-    //施展技能
-    public void PlaySkill(int SkillSlot)
+    //收到技能(由StageMgr呼叫)
+    public void ReceiveSkillInput(int SkillSlot)
     {
-        Debug.Log("PlaySkill");
-        
+        //設定
+        m_InputAttacking = true;
+
         //下面這段改為由Skill讀取表演資料
 
         int SkillAniID = 0;
         SkillAniID = m_SkillPlayer.getSkillAniID(SkillSlot);//讀取技能Animation對應編號
-        Debug.Log("Ani ID:" + SkillAniID.ToString());
-        Debug.Log("Skill Name:" + m_SkillPlayer.getSkillName(SkillSlot));
         m_Animator.SetInteger("state", SkillAniID);
         m_SkillStep = 0;
         NowSkillID = SkillSlot;
-        m_IsAttacking = true;
-
-    }
-    //技能施展中
-    public void CheckSkill()
-    {
-        NormalAttackProcess(NowSkillID);
         
+
     }
 
-    private bool checkIdle()
-    {
-        if (true == m_IsMoving)//檢查是否為移動狀態
-        {
-            return false;
-        }
-
-
-        if (true == m_IsAttacking)//檢查是否為攻擊狀態
-        {
-            return false;
-        }
-
-        //Debug.Log("Check Idle 1: isAttacking=" + m_IsAttacking.ToString());
-        m_Animator.SetInteger("state", 1);
-        m_PlayerState = 1;
-        return true;
-    }
-
-    public void SetPlayerDir(Vector3 Dir)
-    {
-        GameObject playerObj = StagePlayer.Instance.GetPlayerObj();
-    }
     //暫時寫在這邊的普攻流程
     public void NormalAttackProcess(int SkillID)
     {
@@ -141,8 +176,6 @@ public class StagePlayerAction {
         if (AnimatorInfo.normalizedTime >= 0.5f)
         {
             m_IsAttacking = false;
-            //Debug.Log("Checking OK:" + AnimatorInfo.normalizedTime.ToString() + " isAttacking =" + m_IsAttacking.ToString() + " Stete: " + m_Animator.GetInteger("state"));
-            checkIdle();
         }
         if (m_SkillStep == m_SkillPlayer.getAttackPoint(SkillID))
         {
@@ -150,11 +183,6 @@ public class StagePlayerAction {
             Debug.Log("attack");
         }
         m_SkillStep++;
-        //else
-        //Debug.Log("Checking:" + AnimatorInfo.normalizedTime.ToString() + " isAttacking =" + m_IsAttacking.ToString() + " Stete: " + m_Animator.GetInteger("state"));
-
-
-        //m_Animator.GetAnimatorTransitionInfo(1);
     }
     //暫時寫在這邊的普攻攻擊判定
     public void CheckAttackRange(int AttackRange)
@@ -174,9 +202,9 @@ public class StagePlayerAction {
             Vector3 temVec = Enemy.transform.position - m_Player.transform.position;
             Debug.DrawLine(m_Player.transform.position, norVec, Color.red);//画出技能释放者面对的方向向量
             Debug.DrawLine(m_Player.transform.position, Enemy.transform.position, Color.green);//画出技能释放者与目标点的连线
-            float jiajiao = Mathf.Acos(Vector3.Dot(norVec.normalized, temVec.normalized)) * Mathf.Rad2Deg;//计算两个向量间的夹角
+            float jiajiao = Mathf.Acos(Vector3.Dot(norVec.normalized, temVec.normalized)) * Mathf.Rad2Deg;//計算夾角
             //結果
-            if (AttackRange >= curDistance && jiajiao < 30)
+            if (AttackRange >= curDistance && jiajiao < 50)
             {
                 Debug.Log("Enemy In Range:" + curDistance.ToString());
                 m_StageMgr.MgrAttackEnemy(Enemy, forward);

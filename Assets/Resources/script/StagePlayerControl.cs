@@ -79,12 +79,12 @@ public class StagePlayerControl{
         Dir.z = (float)FinalZ * speed;
 
         if (Input.GetAxis("Horizontal") > 0.1 || Input.GetAxis("Horizontal") < -0.1 || Input.GetAxis("Vertical") > 0.1 || Input.GetAxis("Vertical") < -0.1)
-            m_StageMgr.MgrMoveCamera(Dir);
+            m_StageMgr.MgrMoveCamera(Dir, true);
         else
         {
             Dir.x = 0.0f;
             Dir.z = 0.0f;
-            m_StageMgr.MgrMoveCamera(Dir);
+            m_StageMgr.MgrMoveCamera(Dir, false);
         }
     }
 
@@ -109,6 +109,10 @@ public class StagePlayerControl{
         Dir.y = 0;
         Dir.x = 0;
         Dir.z = 0;
+
+        //是否有輸入
+        bool isInput = false;
+
         //上
         if (Input.GetKey(KeyCode.W))
         {
@@ -117,6 +121,7 @@ public class StagePlayerControl{
             if (speedUp > speedMax)
                 speedUp = speedMax;
             //Debug.Log("W:" + Dir.z.ToString());
+            isInput = true;
         }
         else
         {
@@ -133,6 +138,7 @@ public class StagePlayerControl{
             if (speedDown > speedMax)
                 speedDown = speedMax;
             //Debug.Log("S:" + Dir.z.ToString());
+            isInput = true;
         }
         else
         {
@@ -149,6 +155,7 @@ public class StagePlayerControl{
             if (speedRight > speedMax)
                 speedRight = speedMax;
             //Debug.Log("D:" + Dir.x.ToString());
+            isInput = true;
         }
         else
         {
@@ -165,6 +172,7 @@ public class StagePlayerControl{
             if (speedLeft > speedMax)
                 speedLeft = speedMax;
             //Debug.Log("A:" + Dir.x.ToString());
+            isInput = true;
         }
         else
         {
@@ -189,13 +197,13 @@ public class StagePlayerControl{
 
             Dir.x = (float)FinalX * speed;
             Dir.z = (float)FinalZ * speed;
-            m_StageMgr.MgrMoveCamera(Dir);
+            m_StageMgr.MgrMoveCamera(Dir, isInput);
         }
         else
         {
             Dir.x = 0.0f;
             Dir.z = 0.0f;
-            m_StageMgr.MgrMoveCamera(Dir);
+            m_StageMgr.MgrMoveCamera(Dir, isInput);
         }
 
     }

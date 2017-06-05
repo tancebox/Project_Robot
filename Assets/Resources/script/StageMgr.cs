@@ -47,15 +47,15 @@ public class StageMgr{
     }
 
     //由控制系統操作角色與攝影機
-    public void MgrMoveCamera(Vector3 Dir)
+    public void MgrMoveCamera(Vector3 Dir,bool isInput)
     {
-        m_StagePlayerAction.MovePlayer(Dir);
+        m_StagePlayerAction.ReceiveMoveInput(Dir, isInput);
     }
 
     //由控制系統操作角色施展技能
     public void MgrPlaySkill(int SkillSlot)
     {
-        m_StagePlayerAction.PlaySkill(SkillSlot);
+        m_StagePlayerAction.ReceiveSkillInput(SkillSlot);
     }
 
     public Vector3 MgrGetPlayerPos()
