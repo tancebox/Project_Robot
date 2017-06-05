@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root>
+
+	<Job ID="0">
+		<Lv>1</Lv>
+	</Job>
+	<Job ID="1">
+		<Lv>2</Lv>
+	</Job>
+	<Job ID="2">
+		<Lv>3</Lv>
+	</Job>
+
+	
+</Root>

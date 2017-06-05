@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root>
+	<Unit ID="0">
+		<Name>技能1</Name>
+		<NameTag>198800001</NameTag>
+		<Lv>1</Lv>
+		<LvReq>0</LvReq>
+		<Stock>true</Stock>
+		<StepGachaList/>
+		<StepCounterKey/>
+		<StepManuallyReset/>
+		<StepMaxRound/>
+		<ProbSheet>GachaStoneProbs</ProbSheet>
+		<CostType>Stone</CostType>
+		<Cost>5</Cost>
+		<GachaTicket>140000008</GachaTicket>
+		<SingleDraw>true</SingleDraw>
+		<MultiDrawTimes>10</MultiDrawTimes>
+		<FreeDrawForMulti>1</FreeDrawForMulti>
+		<PowerDrawForMulti>0</PowerDrawForMulti>
+		<PowerDrawSheet/>
+		<Discount>4</Discount>
+		<DiscountTimes>1</DiscountTimes>
+		<DiscountCounterKey>1701</DiscountCounterKey>
+		<ComplimentarySheet/>
+		<ComplimentaryProb/>
+		<ComplimentarySheetMulti/>
+		<ComplimentaryProbMulti/>
+		<RetryTimes/>
+		<RetryCost/>
+		<RetryFreeKeep/>
+		<RetryKeepCost/>
+		<IsBoxGacha/>
+		<BoxManuallyReset/>
+		<Pic>GACHA_EVENT_02.png GACHA_STONE_63.png GACHA_STONE_62.png</Pic>
+		<PicFlag/>
+		<Desc/>
+		<DescTag>198900001</DescTag>
+		<ProbTag>190002052</ProbTag>
+		<ShowMobId>150405111 150525111 150371411</ShowMobId>
+		<OutFrame/>
+	</Unit>
+	<Unit ID="1">
+		<Name>技能2</Name>
+		<NameTag>198800002</NameTag>
+		<Lv>2</Lv>
+		<LvReq>0</LvReq>
+		<Stock>true</Stock>
+		<StepGachaList/>
+		<StepCounterKey/>
+		<StepManuallyReset/>
+		<StepMaxRound/>
+		<ProbSheet>GachaSandProbs</ProbSheet>
+		<CostType>Sand</CostType>
+		<Cost>1000</Cost>
+		<GachaTicket/>
+		<SingleDraw>true</SingleDraw>
+		<MultiDrawTimes>10</MultiDrawTimes>
+		<FreeDrawForMulti>0</FreeDrawForMulti>
+		<PowerDrawForMulti>0</PowerDrawForMulti>
+		<PowerDrawSheet/>
+		<Discount/>
+		<DiscountTimes/>
+		<DiscountCounterKey/>
+		<ComplimentarySheet/>
+		<ComplimentaryProb/>
+		<ComplimentarySheetMulti/>
+		<ComplimentaryProbMulti/>
+		<RetryTimes/>
+		<RetryCost/>
+		<RetryFreeKeep/>
+		<RetryKeepCost/>
+		<IsBoxGacha/>
+		<BoxManuallyReset/>
+		<Pic>GACHA_SAND_01.png GACHA_SAND_02.png GACHA_SAND_03.png</Pic>
+		<PicFlag/>
+		<Desc/>
+		<DescTag>198900002</DescTag>
+		<ProbTag/>
+		<ShowMobId/>
+		<OutFrame/>
+	</Unit>
+	<Unit ID="2">
+		<Name>砲術士</Name>
+		<NameTag>198800002</NameTag>
+		<Lv>3</Lv>
+		<LvReq>0</LvReq>
+		<Stock>FALSE</Stock>
+		<StepGachaList/>
+		<StepCounterKey/>
+		<StepManuallyReset/>
+		<StepMaxRound/>
+		<ProbSheet>GachaLvMaxSandProbs</ProbSheet>
+		<CostType>Sand</CostType>
+		<Cost>1000</Cost>
+		<GachaTicket/>
+		<SingleDraw>true</SingleDraw>
+		<MultiDrawTimes>10</MultiDrawTimes>
+		<FreeDrawForMulti>0</FreeDrawForMulti>
+		<PowerDrawForMulti>0</PowerDrawForMulti>
+		<PowerDrawSheet/>
+		<Discount/>
+		<DiscountTimes/>
+		<DiscountCounterKey/>
+		<ComplimentarySheet/>
+		<ComplimentaryProb/>
+		<ComplimentarySheetMulti/>
+		<ComplimentaryProbMulti/>
+		<RetryTimes/>
+		<RetryCost/>
+		<RetryFreeKeep/>
+		<RetryKeepCost/>
+		<IsBoxGacha/>
+		<BoxManuallyReset/>
+		<Pic>GACHA_SAND_01.png GACHA_SAND_02.png GACHA_SAND_03.png</Pic>
+		<PicFlag/>
+		<Desc/>
+		<DescTag>198910003</DescTag>
+		<ProbTag/>
+		<ShowMobId/>
+		<OutFrame/>
+	</Unit>
+	
+</Root>

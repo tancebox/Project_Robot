@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root>
+	<Save ID="0">
+		<NowWorld>0</NowWorld>
+		<WorldAmount>3</WorldAmount><!--目前World上限-->
+	</Save>
+	<WorldState ID="0">
+		<Unlock>true</Unlock>
+	</WorldState>
+	<WorldState ID="1">
+		<Unlock>true</Unlock>
+	</WorldState>
+	<WorldState ID="2">
+		<Unlock>false</Unlock>
+	</WorldState>
+</Root>
