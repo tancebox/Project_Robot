@@ -25,13 +25,16 @@ public class SkillPlayer
     //建構式
     public SkillPlayer()
     {
-        init();
+        
     }
 
 
 
-    public void init()
+    public void init(StageMgr StageMgr)
     {
+        //初始化各類主角技能Class
+        SkillPlayerNormalAttack.Instance.init(StageMgr);
+
         SkillObj = new SkillUnit[2];
 
         SkillObj[0] = new SkillUnit(0);//技能0
@@ -50,6 +53,12 @@ public class SkillPlayer
         int SkillLv = 0;
         SkillLv = SkillObj[SkillID].GetSkillUnitLv();
         return SkillLv;
+    }
+    public string getSkillType(int SkillID)//取得技能類型
+    {
+        string SkillType = "";
+        SkillType = SkillObj[SkillID].GetSkillUnitType();
+        return SkillType;
     }
     public int getSkillAniID(int SkillID)//取得動畫ID
     {

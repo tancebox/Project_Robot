@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StageMgr{
+public class StageMgr {
 
-    private SceneStage          m_SceneStage = null;
-    private StageUI             m_StageUI = null;
-    private StagePlayerControl  m_StagePlayerControl = null;
-    private StageCamera         m_StageCamera = null;
-    private StagePlayerAction   m_StagePlayerAction = null;
-    private SkillPlayer         m_SkillPlayer = null;
+    private SceneStage m_SceneStage = null;
+    private StageUI m_StageUI = null;
+    private StagePlayerControl m_StagePlayerControl = null;
+    private StageCamera m_StageCamera = null;
+    private StagePlayerAction m_StagePlayerAction = null;
+    //SkillPlayer m_SkillPlayer = null;
     //private StagePlayer         m_StagePlayer = null;
+
+    //技能類型
+    // SkillPlayerNormalAttack m_SkillPlayerNormalAttack = null;
 
     private static StageMgr _instance;
     public static StageMgr Instance
@@ -26,20 +29,20 @@ public class StageMgr{
         m_SceneStage = SceneStage;
         //Player用Singloten宣告
         StagePlayer.Instance.init();
+        //主角技能初始化
+        SkillPlayer.Instance.init(this);
         //其他元件
-        m_StageUI =             new StageUI(this);
-        m_StagePlayerControl =  new StagePlayerControl(this);
-        m_StageCamera =         new StageCamera(this);
-        m_SkillPlayer =         new SkillPlayer();
-        m_StagePlayerAction =   new StagePlayerAction(this);
-        
+        m_StageUI = new StageUI(this);
+        m_StagePlayerControl = new StagePlayerControl(this);
+        m_StageCamera = new StageCamera(this);
+        m_StagePlayerAction = new StagePlayerAction(this);
 
     }
     public StageMgr()
     {
 
     }
-	public void Update () {
+    public void Update() {
         m_StagePlayerControl.Update();
         m_StagePlayerAction.Update();
         m_StageCamera.Update();
@@ -47,7 +50,7 @@ public class StageMgr{
     }
 
     //由控制系統操作角色與攝影機
-    public void MgrMoveCamera(Vector3 Dir,bool isInput)
+    public void MgrMoveCamera(Vector3 Dir, bool isInput)
     {
         m_StagePlayerAction.ReceiveMoveInput(Dir, isInput);
     }
@@ -64,9 +67,19 @@ public class StageMgr{
         return Pos;
     }
     //通知敵人被攻擊
-    public void MgrAttackEnemy(GameObject Enemy,Vector3 Forward)
+    public void MgrAttackEnemy(GameObject Enemy, Vector3 Forward)
     {
         Debug.Log("Mgr Attack Enemy");
         Enemy.GetComponent<AI_Enemy_001>().BeAttack(Forward);
+    }
+    //播放音效
+    public void PlayAudio()
+    {
+
+    }
+    //設定PlayerAction的isAttacking
+    public void SetPlayerActionAttr(string type, bool value)
+    {
+        m_StagePlayerAction.MgrSetAttr(type, value);
     }
 }

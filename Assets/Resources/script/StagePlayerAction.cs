@@ -121,8 +121,11 @@ public class StagePlayerAction {
     //技能施展
     public void SkillUpdate()
     {
-        NormalAttackProcess(m_NowSkillID);
-
+        if ("NormalAttack" == SkillPlayer.Instance.getSkillType(m_NowSkillID))
+        {
+            SkillPlayerNormalAttack.Instance.SkillUpdate(m_Player, m_SkillPlayer, m_Animator, m_NowSkillID, m_SkillStep);
+        }
+        m_SkillStep++;
     }
     
     //收到移動
@@ -156,56 +159,12 @@ public class StagePlayerAction {
 
     }
 
-    //暫時寫在這邊的普攻流程
-    public void NormalAttackProcess(int SkillID)
+    //由StageMgr設定
+    public void MgrSetAttr(string type, bool value)
     {
-        AnimatorStateInfo AnimatorInfo = m_Animator.GetCurrentAnimatorStateInfo(0);
-        if (AnimatorInfo.IsName("Walk"))
+        if ("IsAttacking" == type)
         {
-            Debug.Log("Still Walk");
-            return;
+            m_IsAttacking = value;
         }
-        /*else if (AnimatorInfo.normalizedTime >= 0.5f)
-        {
-            m_IsAttacking = false;
-        }*/
-        else if (m_SkillStep == m_SkillPlayer.getAttackPoint(SkillID)+20)
-        {
-            m_IsAttacking = false;
-        }
-        if (m_SkillStep == m_SkillPlayer.getAttackPoint(SkillID))//攻擊點
-        {
-            CheckAttackRange(m_SkillPlayer.GetAttackRangeFar(SkillID));
-        }
-        m_SkillStep++;
-    }
-    //暫時寫在這邊的普攻攻擊判定
-    public void CheckAttackRange(int AttackRange)
-    {
-        GameObject[] nearEnemys;
-        nearEnemys = GameObject.FindGameObjectsWithTag("EnemyUnit");
-
-        foreach (GameObject Enemy in nearEnemys)
-        {
-            //距離
-            Vector3 diff = Enemy.transform.position - m_Player.transform.position;
-            float curDistance = Vector3.Distance(Enemy.transform.position, m_Player.transform.position);
-            //方向與角度
-            Vector3 forward = m_Player.transform.TransformDirection(Vector3.forward);
-
-            Vector3 norVec = m_Player.transform.rotation * Vector3.forward * 5;//此处*5只是为了画线更清楚,可以不要
-            Vector3 temVec = Enemy.transform.position - m_Player.transform.position;
-            Debug.DrawLine(m_Player.transform.position, norVec, Color.red);//画出技能释放者面对的方向向量
-            Debug.DrawLine(m_Player.transform.position, Enemy.transform.position, Color.green);//画出技能释放者与目标点的连线
-            float jiajiao = Mathf.Acos(Vector3.Dot(norVec.normalized, temVec.normalized)) * Mathf.Rad2Deg;//計算夾角
-            //結果
-            if (AttackRange >= curDistance && jiajiao < 50)
-            {
-                Debug.Log("Enemy In Range:" + curDistance.ToString());
-                m_StageMgr.MgrAttackEnemy(Enemy, forward);
-            }
-        }
-
-        
     }
 }
