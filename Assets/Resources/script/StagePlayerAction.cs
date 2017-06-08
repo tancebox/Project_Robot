@@ -119,6 +119,10 @@ public class StagePlayerAction {
         {
             SkillPlayerNormalAttack.Instance.SkillUpdate(m_Player, m_Animator, m_NowSkillID, m_SkillStep);
         }
+        if ("Shoot" == StagePlayer.Instance.GetSkillPlayer().getSkillType(m_NowSkillID))
+        {
+            SkillPlayerShoot.Instance.SkillUpdate(m_Player, m_Animator, m_NowSkillID, m_SkillStep);
+        }
         m_SkillStep++;
     }
     

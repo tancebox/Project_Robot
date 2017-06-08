@@ -15,7 +15,7 @@
 		<Name>技能2</Name>
 		<NameTag>198800002</NameTag>
 		<Lv>2</Lv>
-		<SkillType>NormalAttack</SkillType>
+		<SkillType>Shoot</SkillType>
 		<Animation>4</Animation>
 		<AttackRangeFar>8</AttackRangeFar>
 		<AttackPoint>70</AttackPoint>

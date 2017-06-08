@@ -10,6 +10,7 @@ public class SkillPlayer
     {
         //初始化各類主角技能Class
         SkillPlayerNormalAttack.Instance.init(StageMgr);
+        SkillPlayerShoot.Instance.init(StageMgr);
         init();
     }
 
