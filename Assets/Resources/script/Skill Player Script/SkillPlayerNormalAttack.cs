@@ -41,7 +41,7 @@ public class SkillPlayerNormalAttack {
 
     }
     //技能更新
-    public void SkillUpdate(GameObject Attacker, SkillPlayer SkillPlayer, Animator Animator, int SkillID, int SkillStep)
+    public void SkillUpdate(GameObject Attacker, Animator Animator, int SkillID, int SkillStep)
     {
         AnimatorStateInfo AnimatorInfo = Animator.GetCurrentAnimatorStateInfo(0);
         if (AnimatorInfo.IsName("Walk"))
@@ -49,14 +49,14 @@ public class SkillPlayerNormalAttack {
             Debug.Log("Still Walk");
             return;
         }
-        else if (SkillStep == SkillPlayer.getAttackPoint(SkillID) + 20)
+        else if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID) + 20)
         {
+
             m_StageMgr.SetPlayerActionAttr("IsAttacking", false);
-            //m_IsAttacking = false;
         }
-        if (SkillStep == SkillPlayer.getAttackPoint(SkillID))//攻擊點
+        if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
         {
-            CheckAttackRange(SkillPlayer.GetAttackRangeFar(SkillID),Attacker);
+            CheckAttackRange(StagePlayer.Instance.GetSkillPlayer().GetAttackRangeFar(SkillID),Attacker);
         }
     }
     //取得攻擊對象

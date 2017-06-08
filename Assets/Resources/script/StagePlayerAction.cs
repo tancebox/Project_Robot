@@ -31,7 +31,8 @@ public class StagePlayerAction {
         m_Animator = m_PlayerModel.GetComponent<Animator>();
         m_Animator.applyRootMotion = false;
         //技能相關
-        m_SkillPlayer = SkillPlayer.Instance;
+        m_SkillPlayer = StagePlayer.Instance.GetSkillPlayer();
+        //m_SkillPlayer = SkillPlayer.Instance;
     }
 
 	// Use this for initialization
@@ -58,6 +59,7 @@ public class StagePlayerAction {
                 break;
             case 5://攻擊
                 SkillUpdate();
+                //Debug.Log("Start Skill Update");
                 break;
         }
     }
@@ -102,17 +104,9 @@ public class StagePlayerAction {
     void MoveUpdate()
     {
         //位移
-        m_Player.transform.Translate(m_InputDir, Space.World);
-        m_Animator.SetInteger("state", 2);
+        MoveActor();
         //玩家方向
-        Vector3 ZVector = new Vector3(0, 0, 1);
-        float angle = Vector3.Angle(ZVector, m_InputDir);
-        if (m_InputDir.x < 0)
-            angle = angle * -1;
-        Quaternion quate = Quaternion.identity;
-        quate.eulerAngles = new Vector3(0, angle, 0); // 表示設置x軸方向旋轉了angle度
-        //最後再把quate付給你要操作的Gameobject：
-        m_Player.transform.rotation = quate;
+        RotateActor();
     }
     //受擊
     void BeAttackUpdate()
@@ -121,9 +115,9 @@ public class StagePlayerAction {
     //技能施展
     public void SkillUpdate()
     {
-        if ("NormalAttack" == SkillPlayer.Instance.getSkillType(m_NowSkillID))
+        if ("NormalAttack" == StagePlayer.Instance.GetSkillPlayer().getSkillType(m_NowSkillID))
         {
-            SkillPlayerNormalAttack.Instance.SkillUpdate(m_Player, m_SkillPlayer, m_Animator, m_NowSkillID, m_SkillStep);
+            SkillPlayerNormalAttack.Instance.SkillUpdate(m_Player, m_Animator, m_NowSkillID, m_SkillStep);
         }
         m_SkillStep++;
     }
@@ -151,12 +145,32 @@ public class StagePlayerAction {
         //下面這段改為由Skill讀取表演資料
 
         int SkillAniID = 0;
-        SkillAniID = m_SkillPlayer.getSkillAniID(SkillSlot);//讀取技能Animation對應編號
+        SkillAniID = StagePlayer.Instance.GetSkillPlayer().getSkillAniID(SkillSlot);//讀取技能Animation對應編號
         m_Animator.SetInteger("state", SkillAniID);
         m_SkillStep = 0;
         m_NowSkillID = SkillSlot;
         
 
+    }
+
+    //移動腳色
+    void MoveActor()
+    {
+        m_Player.transform.Translate(m_InputDir, Space.World);
+        m_Animator.SetInteger("state", 2);
+    }
+
+    //旋轉腳色
+    void RotateActor()
+    {
+        Vector3 ZVector = new Vector3(0, 0, 1);
+        float angle = Vector3.Angle(ZVector, m_InputDir);
+        if (m_InputDir.x < 0)
+            angle = angle * -1;
+        Quaternion quate = Quaternion.identity;
+        quate.eulerAngles = new Vector3(0, angle, 0); // 表示設置x軸方向旋轉了angle度
+        //最後再把quate付給你要操作的Gameobject：
+        m_Player.transform.rotation = quate;
     }
 
     //由StageMgr設定

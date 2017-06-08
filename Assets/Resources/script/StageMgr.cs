@@ -11,9 +11,6 @@ public class StageMgr {
     //SkillPlayer m_SkillPlayer = null;
     //private StagePlayer         m_StagePlayer = null;
 
-    //技能類型
-    // SkillPlayerNormalAttack m_SkillPlayerNormalAttack = null;
-
     private static StageMgr _instance;
     public static StageMgr Instance
     {
@@ -28,14 +25,14 @@ public class StageMgr {
     {
         m_SceneStage = SceneStage;
         //Player用Singloten宣告
-        StagePlayer.Instance.init();
+        StagePlayer.Instance.init(this);
         //主角技能初始化
-        SkillPlayer.Instance.init(this);
+        //SkillPlayer.Instance.init(this);
         //其他元件
         m_StageUI = new StageUI(this);
         m_StagePlayerControl = new StagePlayerControl(this);
-        m_StageCamera = new StageCamera(this);
         m_StagePlayerAction = new StagePlayerAction(this);
+        m_StageCamera = new StageCamera(this);
 
     }
     public StageMgr()
@@ -44,7 +41,7 @@ public class StageMgr {
     }
     public void Update() {
         m_StagePlayerControl.Update();
-        m_StagePlayerAction.Update();
+        StagePlayer.Instance.Update();
         m_StageCamera.Update();
         m_StageUI.Update();
     }
@@ -52,13 +49,15 @@ public class StageMgr {
     //由控制系統操作角色與攝影機
     public void MgrMoveCamera(Vector3 Dir, bool isInput)
     {
-        m_StagePlayerAction.ReceiveMoveInput(Dir, isInput);
+        StagePlayer.Instance.GetStagePlayerAction().ReceiveMoveInput(Dir, isInput);
+        //m_StagePlayerAction.ReceiveMoveInput(Dir, isInput);
     }
 
     //由控制系統操作角色施展技能
     public void MgrPlaySkill(int SkillSlot)
     {
-        m_StagePlayerAction.ReceiveSkillInput(SkillSlot);
+        StagePlayer.Instance.GetStagePlayerAction().ReceiveSkillInput(SkillSlot);
+        //m_StagePlayerAction.ReceiveSkillInput(SkillSlot);
     }
 
     public Vector3 MgrGetPlayerPos()
@@ -80,6 +79,7 @@ public class StageMgr {
     //設定PlayerAction的isAttacking
     public void SetPlayerActionAttr(string type, bool value)
     {
-        m_StagePlayerAction.MgrSetAttr(type, value);
+        StagePlayer.Instance.GetStagePlayerAction().MgrSetAttr(type, value);
+        //m_StagePlayerAction.MgrSetAttr(type, value);
     }
 }

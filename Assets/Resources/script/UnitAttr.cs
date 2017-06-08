@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillNormalAttack : MonoBehaviour {
+public class UnitAttr : MonoBehaviour {
 
+    private int HP;
+    private int SP;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,9 +15,4 @@ public class SkillNormalAttack : MonoBehaviour {
 	void Update () {
 		
 	}
-
-    public void CheckAttack(GameObject Attacker,int SkillID)
-    {
-
-    }
 }

@@ -3,38 +3,20 @@ using System.Collections;
 
 public class SkillPlayer
 {
-
-    private LobbyMgr m_LobbyMgr = null;
-
-
-
     private SkillUnit[] SkillObj = null;
-
-    //Singloton
-    private static SkillPlayer _instance = null;
-    public static SkillPlayer Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = new SkillPlayer();
-            return _instance;
-        }
-    }
     
     //建構式
-    public SkillPlayer()
-    {
-        
-    }
-
-
-
-    public void init(StageMgr StageMgr)
+    public SkillPlayer(StageMgr StageMgr)
     {
         //初始化各類主角技能Class
         SkillPlayerNormalAttack.Instance.init(StageMgr);
+        init();
+    }
 
+
+    public void init()
+    {
+        
         SkillObj = new SkillUnit[2];
 
         SkillObj[0] = new SkillUnit(0);//技能0
