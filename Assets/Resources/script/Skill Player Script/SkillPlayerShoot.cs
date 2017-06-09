@@ -6,6 +6,8 @@ public class SkillPlayerShoot{
 
     private StageMgr m_StageMgr = null;
 
+    private GameObject m_Bullet = null;
+
     private static SkillPlayerShoot _instance;
     public static SkillPlayerShoot Instance
     {
@@ -25,6 +27,8 @@ public class SkillPlayerShoot{
     public void init(StageMgr StageMgr)
     {
         m_StageMgr = StageMgr;
+        m_Bullet = GameObject.FindGameObjectWithTag("Bullet");
+        //m_Bullet.GetComponent<>;
     }
 
     // Use this for initialization
@@ -59,36 +63,19 @@ public class SkillPlayerShoot{
         }
         if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
         {
-            CheckAttackRange(StagePlayer.Instance.GetSkillPlayer().GetAttackRangeFar(SkillID), Attacker);
+            //CheckAttackRange(StagePlayer.Instance.GetSkillPlayer().GetAttackRangeFar(SkillID), Attacker);
+            Shoot();
         }
     }
-    //取得攻擊對象
-    public void CheckAttackRange(int AttackRange, GameObject Player)
+    //發射
+    void Shoot()
     {
-        GameObject[] nearEnemys;
-        nearEnemys = GameObject.FindGameObjectsWithTag("EnemyUnit");
-
-        foreach (GameObject Enemy in nearEnemys)
-        {
-            //距離
-            Vector3 diff = Enemy.transform.position - Player.transform.position;
-            float curDistance = Vector3.Distance(Enemy.transform.position, Player.transform.position);
-            //方向與角度
-            Vector3 forward = Player.transform.TransformDirection(Vector3.forward);
-
-            Vector3 norVec = Player.transform.rotation * Vector3.forward * 5;//此处*5只是为了画线更清楚,可以不要
-            Vector3 temVec = Enemy.transform.position - Player.transform.position;
-            Debug.DrawLine(Player.transform.position, norVec, Color.red);//画出技能释放者面对的方向向量
-            Debug.DrawLine(Player.transform.position, Enemy.transform.position, Color.green);//画出技能释放者与目标点的连线
-            float Angle = Mathf.Acos(Vector3.Dot(norVec.normalized, temVec.normalized)) * Mathf.Rad2Deg;//計算夾角
-            //結果
-            if (AttackRange >= curDistance && Angle < 50)
-            {
-                Debug.Log("Enemy In Range:" + curDistance.ToString());
-                m_StageMgr.MgrAttackEnemy(Enemy, forward);
-            }
-        }
-
+        Debug.Log("SHT");
+        GameObject NewBullet = GameObject.Instantiate(m_Bullet,
+            StagePlayer.Instance.GetPlayerObj().transform.position + new Vector3(0.0f, 5.0f, 0.0f),
+            Quaternion.identity);
+        Vector3 PlayerDir = StagePlayer.Instance.GetPlayerObj().transform.TransformDirection(Vector3.forward);
+        NewBullet.gameObject.GetComponent<BulletAction>().StartShoot(PlayerDir, m_StageMgr);
 
     }
 }
