@@ -6,8 +6,6 @@ public class AI_Enemy_001
     {
     private StageMgr m_StageMgr = null;
     private GameObject m_PlayerObj = null;
-    private StagePlayer m_StagePlayer = null;
-    private GameObject m_PlayerModel = null;
     private Animator m_Animator = null;
     private GameObject m_UnitObj = null;
 
@@ -40,8 +38,8 @@ public class AI_Enemy_001
     void init(GameObject Unit, StageMgr StageMgr)
     {
         m_UnitObj = Unit;
-        m_PlayerObj = StagePlayer.Instance.GetPlayerObj();
-        m_SkillEnemy = new SkillEnemy(m_StageMgr);
+        m_PlayerObj = StageMgr.GetPlayerObj();
+        //m_SkillEnemy = new SkillEnemy(m_StageMgr);
         m_Animator = Unit.GetComponentInChildren<Animator>();
         m_State = 1;
     }
@@ -81,7 +79,7 @@ public class AI_Enemy_001
                 return;
             }
             //視線內出現玩家
-            if (true == ObjFuntion.Instance.CheckTargetInDis(m_UnitObj, m_PlayerObj, m_UnitView))
+            if (true == ObjFuntion.CheckTargetInDis(m_UnitObj, m_PlayerObj, m_UnitView))
             {
                 m_State = 2;
             }
@@ -96,13 +94,13 @@ public class AI_Enemy_001
             }
             //玩家進入攻擊距離
             float AttackDis = 20;
-            if (true == ObjFuntion.Instance.CheckTargetInDis(m_UnitObj, m_PlayerObj, AttackDis))
+            if (true == ObjFuntion.CheckTargetInDis(m_UnitObj, m_PlayerObj, AttackDis))
             {
                 SkillStart();
             }
 
             //玩家離開視線
-            if (false == ObjFuntion.Instance.CheckTargetInDis(m_UnitObj, m_PlayerObj, m_UnitView))
+            if (false == ObjFuntion.CheckTargetInDis(m_UnitObj, m_PlayerObj, m_UnitView))
             {
                 m_State = 1;
                 m_Animator.SetInteger("state", 1);
@@ -118,16 +116,24 @@ public class AI_Enemy_001
             }
         }
 
-        if (5 == m_State)
+        if (5 == m_State)//攻擊時的Check
         {
+            //收到受擊訊號
+            if (true == m_BeAttackSignal)
+            {
+                m_BeAttackSignal = false;
+                m_State = 3;
+                m_IsAttacking = false;
+                return;
+            }
             if (true == m_IsAttacking)
             {
                 SkillUpdate();
             }
             else
             {
-                m_State = 1;
-                m_Animator.SetInteger("state", 1);
+                m_State = 2;
+                //m_Animator.SetInteger("state", 1);
             }
         }
 
@@ -145,16 +151,16 @@ public class AI_Enemy_001
         m_Animator.SetInteger("state", 2);
         Vector3 Dir = m_PlayerObj.transform.position - m_UnitObj.transform.position;
         //轉身
-        ObjFuntion.Instance.TurnToObj(m_UnitObj, m_PlayerObj, false);
+        ObjFuntion.TurnToObj(m_UnitObj, m_PlayerObj, false);
         //移動
         m_UnitObj.transform.Translate(Dir.x*0.01f , Dir.y*0.01f, Dir.z * 0.01f, Space.World);
     }
     private void BeAttackUpdate()
     {
         AnimatorStateInfo AnimatorInfo = m_Animator.GetCurrentAnimatorStateInfo(0);
-        if (AnimatorInfo.IsName("Idle"))
+        if (!AnimatorInfo.IsName("BeAttack"))
         {
-            Debug.Log("Still Idle");
+            //Debug.Log("Still Idle");
             return;
         }
             
@@ -169,7 +175,6 @@ public class AI_Enemy_001
     void SkillUpdate()
     {
         string SkillName = m_UnitObj.GetComponent<StageEnemyUnit>().GetSkillEnemy().getSkillType(0);
-        Debug.Log(SkillName);
         if ("Shoot" == m_UnitObj.GetComponent<StageEnemyUnit>().GetSkillEnemy().getSkillType(0))
         {
             SkillEnemyShoot.Instance.SkillUpdate(m_UnitObj, m_Animator, 0, m_SkillStep);
@@ -196,11 +201,11 @@ public class AI_Enemy_001
     //由Mgr通知單位受攻擊
     public void BeAttack(Vector3 Forward)
     {
-        Debug.Log("AI Be Attack!");
+        //Debug.Log("AI Be Attack!");
         m_BeAttackSignal = true;
         m_Animator.SetInteger("state", 3);
         //旋轉至面對玩家
-        ObjFuntion.Instance.TurnToObj(m_UnitObj, m_PlayerObj, false);
+        ObjFuntion.TurnToObj(m_UnitObj, m_PlayerObj, false);
     }
 
     //

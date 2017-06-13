@@ -44,23 +44,25 @@ public class SkillEnemyShoot{
     //技能更新
     public void SkillUpdate(GameObject Attacker, Animator Animator, int SkillID, int SkillStep)
     {
-        Debug.Log("Update "+ SkillStep.ToString());
         AnimatorStateInfo AnimatorInfo = Animator.GetCurrentAnimatorStateInfo(0);
+        int AttPoint = Attacker.GetComponent<StageEnemyUnit>().GetSkillEnemy().getAttackPoint(SkillID);
         if (AnimatorInfo.IsName("Move"))
         {
             Debug.Log("Still Move");
             return;
         }
-        //else if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID) + 20)
-        else if (SkillStep == Attacker.GetComponent<StageEnemyUnit>().GetSkillEnemy().getAttackPoint(SkillID)+20)
+        else if (SkillStep == AttPoint + 20)
         {
-
-            //m_StageMgr.SetEnemyAttr(Attacker, "IsAttacking", false);
             Attacker.GetComponent<StageEnemyUnit>().SetEnemyAIAttr("IsAttacking", false);
-            
+
         }
-        if (SkillStep == Attacker.GetComponent<StageEnemyUnit>().GetSkillEnemy().getAttackPoint(SkillID))//攻擊點
+        else if (SkillStep < AttPoint)
         {
+            ObjFuntion.TurnToObj(Attacker, m_StageMgr.GetPlayerObj(), false);
+        }
+        if (SkillStep == AttPoint)//攻擊點
+        {
+            Debug.Log("Shoot!");
             Shoot(Attacker);
         }
     }
@@ -71,7 +73,7 @@ public class SkillEnemyShoot{
             Attacker.transform.position + new Vector3(0.0f, 5.0f, 0.0f),
             Quaternion.identity);
         Vector3 Dir = Attacker.transform.TransformDirection(Vector3.forward);
-        NewBullet.gameObject.GetComponent<BulletAction>().StartShoot(Dir, m_StageMgr);
+        NewBullet.gameObject.GetComponent<BulletAction>().StartShoot(Dir, m_StageMgr, "Player");
 
     }
 }

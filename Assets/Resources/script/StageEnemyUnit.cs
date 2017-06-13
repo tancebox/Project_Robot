@@ -16,7 +16,7 @@ public class StageEnemyUnit : MonoBehaviour {
     public void init(StageMgr StageMgr)
     {
         m_StageMgr = StageMgr;
-        m_SkillEnemy = new SkillEnemy(m_StageMgr);
+        m_SkillEnemy = new SkillEnemy(StageMgr);
         m_AI = new AI_Enemy_001(this.gameObject, StageMgr);
     }
 	

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjFuntion{
+public static class ObjFuntion{
 
-    public static ObjFuntion _instance = null;
-
+    /*public static ObjFuntion _instance = null;
+    f
     public static ObjFuntion Instance
     {
         get
@@ -19,9 +19,9 @@ public class ObjFuntion{
     public ObjFuntion()
     {
         
-    }
+    }*/
     //轉向目標
-    public void TurnToObj(GameObject SelfObj, GameObject Target, bool isInverse)
+    public static void TurnToObj(GameObject SelfObj, GameObject Target, bool isInverse)
     {
         Vector3 Dir = Target.transform.position - SelfObj.transform.position;
         //轉身
@@ -38,7 +38,7 @@ public class ObjFuntion{
         SelfObj.transform.rotation = quate;
     }
     //轉向指定方向
-    public void TurnToDir(GameObject SelfObj, Vector3 Dir, bool isInverse)
+    public static void TurnToDir(GameObject SelfObj, Vector3 Dir, bool isInverse)
     {
         //轉身
         Vector3 ZVector = new Vector3(0, 0, 1);
@@ -54,7 +54,7 @@ public class ObjFuntion{
         SelfObj.transform.rotation = quate;
     }
     //檢查目標是否在距離內
-    public bool CheckTargetInDis(GameObject SelfObj, GameObject Target, float Dis)//檢查視野內是否出現目標
+    public static bool CheckTargetInDis(GameObject SelfObj, GameObject Target, float Dis)//檢查視野內是否出現目標
     {
         Vector3 diff = SelfObj.transform.position - Target.transform.position;
         float curDistance = Vector3.Distance(SelfObj.transform.position, Target.transform.position);

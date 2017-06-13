@@ -49,14 +49,15 @@ public class SkillPlayerNormalAttack {
             Debug.Log("Still Walk");
             return;
         }
-        else if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID) + 20)
+        else if (SkillStep == m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getAttackPoint(SkillID) + 20)
         {
 
-            m_StageMgr.SetPlayerActionAttr("IsAttacking", false);
+            m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().SetActionAttr("IsAttacking", false);
+
         }
-        if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
+        if (SkillStep == m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
         {
-            CheckAttackRange(StagePlayer.Instance.GetSkillPlayer().GetAttackRangeFar(SkillID),Attacker);
+            CheckAttackRange(m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().GetAttackRangeFar(SkillID),Attacker);
         }
     }
     //取得攻擊對象

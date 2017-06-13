@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StagePlayerAction {
     private StageMgr m_StageMgr = null;
-    private GameObject m_Player = null;
+    private GameObject m_PlayerObj = null;
     private StagePlayer m_StagePlayer = null;
     private GameObject m_PlayerModel = null;
     private Animator m_Animator = null;
@@ -26,13 +26,12 @@ public class StagePlayerAction {
     public StagePlayerAction(StageMgr StageMgr)
     {
         m_StageMgr = StageMgr;
-        m_Player = StagePlayer.Instance.GetPlayerObj();
+        m_PlayerObj = m_StageMgr.GetPlayerObj();
         m_PlayerModel = GameObject.Find("PlayerModel");
         m_Animator = m_PlayerModel.GetComponent<Animator>();
         m_Animator.applyRootMotion = false;
         //技能相關
-        m_SkillPlayer = StagePlayer.Instance.GetSkillPlayer();
-        //m_SkillPlayer = SkillPlayer.Instance;
+        m_SkillPlayer = m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer();
     }
 
 	// Use this for initialization
@@ -104,10 +103,10 @@ public class StagePlayerAction {
     void MoveUpdate()
     {
         //位移
-        m_Player.transform.Translate(m_InputDir, Space.World);
+        m_PlayerObj.transform.Translate(m_InputDir, Space.World);
         m_Animator.SetInteger("state", 2);
         //設定玩家方向
-        ObjFuntion.Instance.TurnToDir(m_Player, m_InputDir, false);
+        ObjFuntion.TurnToDir(m_PlayerObj, m_InputDir, false);
     }
     //受擊
     void BeAttackUpdate()
@@ -116,13 +115,13 @@ public class StagePlayerAction {
     //技能施展
     public void SkillUpdate()
     {
-        if ("NormalAttack" == StagePlayer.Instance.GetSkillPlayer().getSkillType(m_NowSkillID))
+        if ("NormalAttack" == m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getSkillType(m_NowSkillID))
         {
-            SkillPlayerNormalAttack.Instance.SkillUpdate(m_Player, m_Animator, m_NowSkillID, m_SkillStep);
+            SkillPlayerNormalAttack.Instance.SkillUpdate(m_PlayerObj, m_Animator, m_NowSkillID, m_SkillStep);
         }
-        if ("Shoot" == StagePlayer.Instance.GetSkillPlayer().getSkillType(m_NowSkillID))
+        if ("Shoot" == m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getSkillType(m_NowSkillID))
         {
-            SkillPlayerShoot.Instance.SkillUpdate(m_Player, m_Animator, m_NowSkillID, m_SkillStep);
+            SkillPlayerShoot.Instance.SkillUpdate(m_PlayerObj, m_Animator, m_NowSkillID, m_SkillStep);
         }
         m_SkillStep++;
     }
@@ -150,7 +149,7 @@ public class StagePlayerAction {
         //下面這段改為由Skill讀取表演資料
 
         int SkillAniID = 0;
-        SkillAniID = StagePlayer.Instance.GetSkillPlayer().getSkillAniID(SkillSlot);//讀取技能Animation對應編號
+        SkillAniID = m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getSkillAniID(SkillSlot);//讀取技能Animation對應編號
         m_Animator.SetInteger("state", SkillAniID);
         m_SkillStep = 0;
         m_NowSkillID = SkillSlot;
@@ -159,7 +158,7 @@ public class StagePlayerAction {
     }
 
     //由StageMgr設定
-    public void MgrSetAttr(string type, bool value)
+    public void SetAttr(string type, bool value)
     {
         if ("IsAttacking" == type)
         {

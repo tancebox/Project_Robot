@@ -50,12 +50,11 @@ public class SkillPlayerShoot{
             Debug.Log("Still Walk");
             return;
         }
-        else if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID) + 20)
+        else if (SkillStep == m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getAttackPoint(SkillID) + 20)
         {
-
-            m_StageMgr.SetPlayerActionAttr("IsAttacking", false);
+            m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().SetActionAttr("IsAttacking", false);
         }
-        if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
+        if (SkillStep == m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
         {
             Shoot();
         }
@@ -64,10 +63,10 @@ public class SkillPlayerShoot{
     void Shoot()
     {
         GameObject NewBullet = GameObject.Instantiate(m_Bullet,
-            StagePlayer.Instance.GetPlayerObj().transform.position + new Vector3(0.0f, 5.0f, 0.0f),
+            m_StageMgr.GetPlayerObj().transform.position + new Vector3(0.0f, 5.0f, 0.0f),
             Quaternion.identity);
-        Vector3 PlayerDir = StagePlayer.Instance.GetPlayerObj().transform.TransformDirection(Vector3.forward);
-        NewBullet.gameObject.GetComponent<BulletAction>().StartShoot(PlayerDir, m_StageMgr);
+        Vector3 PlayerDir = m_StageMgr.GetPlayerObj().transform.TransformDirection(Vector3.forward);
+        NewBullet.gameObject.GetComponent<BulletAction>().StartShoot(PlayerDir, m_StageMgr, "EnemyUnit");
 
     }
 }

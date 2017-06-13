@@ -6,15 +6,17 @@ public class BulletAction : MonoBehaviour {
 
     private Vector3 m_Dir = new Vector3(0,0,0);
     private StageMgr m_StageMgr = null;
+    private string m_TargetType = "";
 
 	void Start () {
 		
 	}
 
-    public void StartShoot(Vector3 Dir, StageMgr StageMgr)
+    public void StartShoot(Vector3 Dir, StageMgr StageMgr, string TargetType)
     {
         m_Dir = Dir;
         m_StageMgr = StageMgr;
+        m_TargetType = TargetType;
         Debug.Log("Shoot");
     }
 	
@@ -31,7 +33,7 @@ public class BulletAction : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         GameObject Enemy = null;
-        if (other.gameObject.tag == "EnemyUnit")
+        if (other.gameObject.tag == m_TargetType && m_TargetType == "EnemyUnit")
         {
             Enemy = other.gameObject;
             m_StageMgr.MgrAttackEnemy(Enemy, m_Dir);
