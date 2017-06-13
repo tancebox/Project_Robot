@@ -8,6 +8,7 @@ public class StageMgr {
     private StagePlayerControl m_StagePlayerControl = null;
     private StageCamera m_StageCamera = null;
     private StagePlayerAction m_StagePlayerAction = null;
+    private GameObject[] m_Enemys;
     //SkillPlayer m_SkillPlayer = null;
     //private StagePlayer         m_StagePlayer = null;
 
@@ -33,6 +34,13 @@ public class StageMgr {
         m_StagePlayerControl = new StagePlayerControl(this);
         m_StagePlayerAction = new StagePlayerAction(this);
         m_StageCamera = new StageCamera(this);
+
+        //初始化敵人Obj
+        m_Enemys = GameObject.FindGameObjectsWithTag("EnemyUnit");
+        foreach (GameObject Enemy in m_Enemys)
+        {
+            Enemy.GetComponent<StageEnemyUnit>().init(this);
+        }
 
     }
     public StageMgr()
@@ -69,7 +77,8 @@ public class StageMgr {
     public void MgrAttackEnemy(GameObject Enemy, Vector3 Forward)
     {
         Debug.Log("Mgr Attack Enemy");
-        Enemy.GetComponent<AI_Enemy_001>().BeAttack(Forward);
+        //Enemy.GetComponent<AI_Enemy_001>().BeAttack(Forward);
+        Enemy.GetComponent<StageEnemyUnit>().UnitBeAttack(Forward);
     }
     //播放音效
     public void PlayAudio()
@@ -81,5 +90,10 @@ public class StageMgr {
     {
         StagePlayer.Instance.GetStagePlayerAction().MgrSetAttr(type, value);
         //m_StagePlayerAction.MgrSetAttr(type, value);
+    }
+    //設定PlayerAction的isAttacking
+    public void SetEnemyAttr(GameObject UnitObj, string type, bool value)
+    {
+        UnitObj.GetComponent<StageEnemyUnit>().SetEnemyAIAttr(type, value);
     }
 }

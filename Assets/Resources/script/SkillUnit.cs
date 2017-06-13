@@ -18,8 +18,14 @@ public class SkillUnit
     //戰鬥參數
     private int m_AttackRangeFar;
 
-    public SkillUnit(int UnitID)
+    public SkillUnit(int UnitID, bool isEnemy = false)
     {
+        if (true == isEnemy)
+        {
+            LoadSkillEnemyInfo(UnitID);
+            return;
+        }
+
         LoadSkillInfo(UnitID);
     }
 
@@ -34,6 +40,19 @@ public class SkillUnit
         m_ContinuePoint = Int32.Parse(XmlTool.Instance.LoadXmlFile("Skill", "Unit", "ContinuePoint", UnitID));
         m_EndPoint = Int32.Parse(XmlTool.Instance.LoadXmlFile("Skill", "Unit", "EndPoint", UnitID));
         m_AttackRangeFar = Int32.Parse(XmlTool.Instance.LoadXmlFile("Skill", "Unit", "AttackRangeFar", UnitID));
+    }
+
+    public void LoadSkillEnemyInfo(int UnitID)
+    {
+        m_ID = UnitID;
+        m_Name = XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "Name", UnitID);
+        m_Lv = Int32.Parse(XmlTool.Instance.LoadXmlFile("SAVE_SKILL", "Job", "Lv", UnitID));
+        m_SkillType = XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "SkillType", UnitID);
+        m_AniID = Int32.Parse(XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "Animation", UnitID));
+        m_AttackPoint = Int32.Parse(XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "AttackPoint", UnitID));
+        m_ContinuePoint = Int32.Parse(XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "ContinuePoint", UnitID));
+        m_EndPoint = Int32.Parse(XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "EndPoint", UnitID));
+        m_AttackRangeFar = Int32.Parse(XmlTool.Instance.LoadXmlFile("SkillEnemy", "Unit", "AttackRangeFar", UnitID));
     }
 
     public string GetSkillUnitName()

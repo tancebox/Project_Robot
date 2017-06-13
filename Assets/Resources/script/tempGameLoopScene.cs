@@ -16,7 +16,7 @@ public class tempGameLoopScene : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         SceneMgr.SceneUpdate();
     }
 }

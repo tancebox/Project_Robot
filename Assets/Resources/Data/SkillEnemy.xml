@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root>
+	<Unit ID="0">
+		<Name>怪物技能1</Name>
+		<NameTag>198800001</NameTag>
+		<Lv>2</Lv>
+		<SkillType>Shoot</SkillType>
+		<Animation>4</Animation>
+		<AttackRangeFar>8</AttackRangeFar>
+		<AttackPoint>70</AttackPoint>
+		<ContinuePoint>50</ContinuePoint>
+		<EndPoint>50</EndPoint>
+		<AIDis>40</AIDis>
+	</Unit>
+	<Unit ID="1">
+		<Name>怪物技能2</Name>
+		<NameTag>198800002</NameTag>
+		<Lv>2</Lv>
+		<SkillType>Shoot</SkillType>
+		<Animation>5</Animation>
+		<AttackRangeFar>8</AttackRangeFar>
+		<AttackPoint>70</AttackPoint>
+		<ContinuePoint>50</ContinuePoint>
+		<EndPoint>50</EndPoint>
+		<AIDis>40</AIDis>
+	</Unit>
+	
+</Root>

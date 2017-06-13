@@ -104,9 +104,10 @@ public class StagePlayerAction {
     void MoveUpdate()
     {
         //位移
-        MoveActor();
-        //玩家方向
-        RotateActor();
+        m_Player.transform.Translate(m_InputDir, Space.World);
+        m_Animator.SetInteger("state", 2);
+        //設定玩家方向
+        ObjFuntion.Instance.TurnToDir(m_Player, m_InputDir, false);
     }
     //受擊
     void BeAttackUpdate()
@@ -126,7 +127,7 @@ public class StagePlayerAction {
         m_SkillStep++;
     }
     
-    //收到移動
+    //收到移動輸入
     public void ReceiveMoveInput(Vector3 Dir, bool isInput)
     {
         //設定方向與狀態參數
@@ -140,7 +141,7 @@ public class StagePlayerAction {
 
     }
 
-    //收到技能(由StageMgr呼叫)
+    //收到技能輸入(由StageMgr呼叫)
     public void ReceiveSkillInput(int SkillSlot)
     {
         //設定
@@ -155,26 +156,6 @@ public class StagePlayerAction {
         m_NowSkillID = SkillSlot;
         
 
-    }
-
-    //移動腳色
-    void MoveActor()
-    {
-        m_Player.transform.Translate(m_InputDir, Space.World);
-        m_Animator.SetInteger("state", 2);
-    }
-
-    //旋轉腳色
-    void RotateActor()
-    {
-        Vector3 ZVector = new Vector3(0, 0, 1);
-        float angle = Vector3.Angle(ZVector, m_InputDir);
-        if (m_InputDir.x < 0)
-            angle = angle * -1;
-        Quaternion quate = Quaternion.identity;
-        quate.eulerAngles = new Vector3(0, angle, 0); // 表示設置x軸方向旋轉了angle度
-        //最後再把quate付給你要操作的Gameobject：
-        m_Player.transform.rotation = quate;
     }
 
     //由StageMgr設定

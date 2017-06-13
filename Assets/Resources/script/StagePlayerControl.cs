@@ -51,6 +51,8 @@ public class StagePlayerControl{
     public void Update() {
         if (Input.anyKeyDown)//按下任何按鍵，切換為鍵盤輸入
             ControlType=2;
+        if(Input.GetButtonDown("Btn1") || Input.GetButtonDown("Btn2"))
+            ControlType = 1;
 
         if (ControlType==1)
             PadControl();
@@ -61,6 +63,11 @@ public class StagePlayerControl{
 
     void PadControl()//遊戲搖桿控制
     {
+        //<遊戲手把>按"確認"
+        if (Input.GetButtonDown("Btn1"))
+            m_StageMgr.MgrPlaySkill(0);
+        if (Input.GetButtonDown("Btn2"))
+            m_StageMgr.MgrPlaySkill(1);
         // 移動相關
         Vector3 Dir = new Vector3();
 

@@ -28,7 +28,6 @@ public class SkillPlayerShoot{
     {
         m_StageMgr = StageMgr;
         m_Bullet = GameObject.FindGameObjectWithTag("Bullet");
-        //m_Bullet.GetComponent<>;
     }
 
     // Use this for initialization
@@ -39,11 +38,6 @@ public class SkillPlayerShoot{
 
     // Update is called once per frame
     void Update()
-    {
-
-    }
-
-    public void CheckAttack(GameObject Attacker, int SkillID)
     {
 
     }
@@ -63,14 +57,12 @@ public class SkillPlayerShoot{
         }
         if (SkillStep == StagePlayer.Instance.GetSkillPlayer().getAttackPoint(SkillID))//攻擊點
         {
-            //CheckAttackRange(StagePlayer.Instance.GetSkillPlayer().GetAttackRangeFar(SkillID), Attacker);
             Shoot();
         }
     }
     //發射
     void Shoot()
     {
-        Debug.Log("SHT");
         GameObject NewBullet = GameObject.Instantiate(m_Bullet,
             StagePlayer.Instance.GetPlayerObj().transform.position + new Vector3(0.0f, 5.0f, 0.0f),
             Quaternion.identity);
