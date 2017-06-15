@@ -15,6 +15,7 @@ public class StagePlayerAction {
 
     //移動相關
     private Vector3 m_InputDir = new Vector3(0, 0, 0);
+    private float m_Speed = 1.5f;
 
     //狀態相關
     private int m_State = 0; //1:Idle 2:Move 3.BeAttack 5.Skill
@@ -103,7 +104,8 @@ public class StagePlayerAction {
     void MoveUpdate()
     {
         //位移
-        m_PlayerObj.transform.Translate(m_InputDir, Space.World);
+        Vector3 MoveValue = new Vector3(m_InputDir.x * m_Speed, m_InputDir.y * m_Speed, m_InputDir.z * m_Speed);
+        m_PlayerObj.transform.Translate(MoveValue, Space.World);
         m_Animator.SetInteger("state", 2);
         //設定玩家方向
         ObjFuntion.TurnToDir(m_PlayerObj, m_InputDir, false);

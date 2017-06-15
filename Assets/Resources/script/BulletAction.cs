@@ -32,15 +32,24 @@ public class BulletAction : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject Enemy = null;
         if (other.gameObject.tag == m_TargetType && m_TargetType == "EnemyUnit")
         {
+            GameObject Enemy = null;
             Enemy = other.gameObject;
             m_StageMgr.MgrAttackEnemy(Enemy, m_Dir);
             Destroy(this.gameObject);
             Debug.Log("Hit");
         }
 
-        
+        if (other.gameObject.tag == m_TargetType && m_TargetType == "Player")
+        {
+            GameObject Target = null;
+            Target = other.gameObject;
+            m_StageMgr.MgrAttackPlayer(Target, m_Dir);
+            Destroy(this.gameObject);
+            Debug.Log("Hit Player");
+        }
+
+
     }
 }

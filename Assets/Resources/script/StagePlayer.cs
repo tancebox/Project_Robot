@@ -19,6 +19,7 @@ public class StagePlayer : MonoBehaviour{
     {
         m_PlayerObj = this.gameObject;
         m_StageMgr = StageMgr;
+        m_UnitAttr = new UnitAttr();
         m_StagePlayerAction = new StagePlayerAction(StageMgr);
         m_SkillPlayer = new SkillPlayer(StageMgr);
     }
@@ -29,6 +30,7 @@ public class StagePlayer : MonoBehaviour{
 
     public void PlayerUpdate()
     {
+        CheckPlayerDeath();
         m_StagePlayerAction.Update();
     } 
 
@@ -36,6 +38,21 @@ public class StagePlayer : MonoBehaviour{
     {
         Vector3 Pos = m_PlayerObj.transform.position;
         return Pos;
+    }
+
+    void CheckPlayerDeath()
+    {
+        if (0 <= m_UnitAttr.GetHP())
+        {
+            Debug.Log("Game Over");
+        }
+    }
+
+    //主角受擊
+    public void PlayerBeAttack()
+    {
+        m_UnitAttr.AddHp(-50);
+        Debug.Log("Player Be Attack " + m_UnitAttr.GetHP().ToString());
     }
 
     //取得StagePlayerAction

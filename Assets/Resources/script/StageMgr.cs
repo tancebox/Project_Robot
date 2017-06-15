@@ -72,6 +72,12 @@ public class StageMgr {
         Debug.Log("Mgr Attack Enemy");
         Enemy.GetComponent<StageEnemyUnit>().UnitBeAttack(Forward);
     }
+    //通知主角被攻擊
+    public void MgrAttackPlayer(GameObject Player, Vector3 Forward)
+    {
+        Debug.Log("Mgr Attack Player");
+        Player.GetComponent<StagePlayer>().PlayerBeAttack();
+    }
     //取得玩家Obj
     public GameObject GetPlayerObj()
     {
