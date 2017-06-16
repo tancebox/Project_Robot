@@ -48,7 +48,6 @@ public class SkillEnemyShoot{
         int AttPoint = Attacker.GetComponent<StageEnemyUnit>().GetSkillEnemy().getAttackPoint(SkillID);
         if (AnimatorInfo.IsName("Move"))
         {
-            Debug.Log("Still Move");
             return;
         }
         else if (SkillStep == AttPoint + 20)

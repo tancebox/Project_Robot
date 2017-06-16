@@ -6,7 +6,7 @@ public class StageEnemyUnit : MonoBehaviour {
 
     private StageMgr m_StageMgr = null;
     private SkillEnemy m_SkillEnemy = null;
-    private AI_Enemy_001 m_AI;
+    private IAI m_AI = null;
 
 	// Use this for initialization
 	void Start () {

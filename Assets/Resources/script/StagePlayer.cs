@@ -44,7 +44,7 @@ public class StagePlayer : MonoBehaviour{
     {
         if (0 <= m_UnitAttr.GetHP())
         {
-            Debug.Log("Game Over");
+            //Debug.Log("Game Over");
         }
     }
 
