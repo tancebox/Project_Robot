@@ -27,6 +27,12 @@ public class AIStateBeAttack : IAIState {
 
     public override void Update()
     {
+        if (false == m_StartDone)
+        {
+            Start();
+            return;
+        }
+
         CheckState();
         m_Animator.SetInteger("state", 3);
         AnimatorStateInfo AnimatorInfo = m_Animator.GetCurrentAnimatorStateInfo(0);
@@ -51,6 +57,14 @@ public class AIStateBeAttack : IAIState {
         if (AnimatorInfo.normalizedTime >= 0.9f)
         {
             m_AI.SetState((int)EnumMgr.UNIT_STATE.IDLE);
+            Reset();
         }
+    }
+
+    public override void Start()
+    {
+        //旋轉至面對玩家
+        ObjFuntion.TurnToObj(m_UnitObj, m_PlayerObj, false);
+        m_StartDone = true;
     }
 }

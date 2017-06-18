@@ -50,15 +50,12 @@ public class AI_Enemy_001 : IAI
     //由Mgr通知單位受攻擊
     public override void BeAttack(Vector3 Forward)
     {
-        //Debug.Log("AI Be Attack!");
         m_StateNow.ReceiveBeAttackSignal();
-        //旋轉至面對玩家
-        ObjFuntion.TurnToObj(m_UnitObj, m_PlayerObj, false);
     }
 
     //
-    //由StageMgr設定
-    public override void SetAIAttr(string type, bool value)//攻擊結束
+    //由StageMgr=>EnemyUnit=>這邊(考慮要不要跳過StageMgr由單位呼叫)
+    public override void SkillEnd()//攻擊結束
     {
         if (m_StateNow.Equals(m_StateSkill))
             m_StateNow.End();

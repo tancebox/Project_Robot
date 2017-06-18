@@ -16,7 +16,7 @@ public class IAI{
     //由Mgr通知單位受攻擊
     public virtual void BeAttack(Vector3 Forward){}
 
-    public virtual void SetAIAttr(string type, bool value) { }
+    public virtual void SkillEnd() { }
 
     public virtual void SetState(int NewStateID) { }
 

@@ -7,7 +7,7 @@
 		<SkillType>Shoot</SkillType>
 		<Animation>4</Animation>
 		<AttackRangeFar>8</AttackRangeFar>
-		<AttackPoint>40</AttackPoint>
+		<AttackPoint>20</AttackPoint>
 		<ContinuePoint>50</ContinuePoint>
 		<EndPoint>50</EndPoint>
 		<AIDis>40</AIDis>

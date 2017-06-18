@@ -52,7 +52,7 @@ public class SkillEnemyShoot{
         }
         else if (SkillStep == AttPoint + 20)
         {
-            Attacker.GetComponent<StageEnemyUnit>().SetEnemyAIAttr("IsAttacking", false);
+            Attacker.GetComponent<StageEnemyUnit>().SetEnemySkillEnd();
 
         }
         else if (SkillStep < AttPoint)

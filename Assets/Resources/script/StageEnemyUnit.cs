@@ -37,8 +37,8 @@ public class StageEnemyUnit : MonoBehaviour {
         return m_SkillEnemy;
     }
     //設定AI的參數
-    public void SetEnemyAIAttr(string type, bool value)
+    public void SetEnemySkillEnd()
     {
-        m_AI.SetAIAttr(type, value);
+        m_AI.SkillEnd();
     }
 }

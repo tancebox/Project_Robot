@@ -16,7 +16,6 @@ public class AIStateSkill : IAIState
 
     //此類型獨有參數
     private int m_SkillStep = 0;
-    private bool m_StartDone = false;
 
     public AIStateSkill(StageMgr StageMgr, IAI AI, int ID, Animator Animator)
     {

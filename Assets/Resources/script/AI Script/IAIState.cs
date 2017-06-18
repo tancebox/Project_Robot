@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IAIState{
     public bool m_BeAttackSignal = false;
+    public bool m_StartDone = false;
 
     public IAIState() { }
 
@@ -15,6 +16,6 @@ public class IAIState{
 
     //技能比較長用的
     public virtual void Start() { }
-    public virtual void Reset() { }
+    public virtual void Reset() { m_StartDone = false; }
     public virtual void End() { }
 }
