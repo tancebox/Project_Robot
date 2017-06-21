@@ -35,13 +35,11 @@ public class StagePlayerAction {
         m_SkillPlayer = m_StageMgr.GetPlayerObj().GetComponent<StagePlayer>().GetSkillPlayer();
     }
 
-	// Use this for initialization
 	void Start ()
     {
         m_State = 1;
     }
 	
-	// Update is called once per frame
 	public void Update ()
     {
         CheckState();
