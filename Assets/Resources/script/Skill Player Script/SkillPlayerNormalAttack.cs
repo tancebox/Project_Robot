@@ -43,6 +43,7 @@ public class SkillPlayerNormalAttack {
     //技能更新
     public void SkillUpdate(GameObject Attacker, Animator Animator, int SkillID, int SkillStep)
     {
+        Debug.Log(SkillStep.ToString());
         AnimatorStateInfo AnimatorInfo = Animator.GetCurrentAnimatorStateInfo(0);
         if (AnimatorInfo.IsName("Walk"))
         {
@@ -76,8 +77,8 @@ public class SkillPlayerNormalAttack {
 
             Vector3 norVec = Player.transform.rotation * Vector3.forward * 5;//此处*5只是为了画线更清楚,可以不要
             Vector3 temVec = Enemy.transform.position - Player.transform.position;
-            Debug.DrawLine(Player.transform.position, norVec, Color.red);//画出技能释放者面对的方向向量
-            Debug.DrawLine(Player.transform.position, Enemy.transform.position, Color.green);//画出技能释放者与目标点的连线
+            //Debug.DrawLine(Player.transform.position, norVec, Color.red);//画出技能释放者面对的方向向量
+            //Debug.DrawLine(Player.transform.position, Enemy.transform.position, Color.green);//画出技能释放者与目标点的连线
             float Angle = Mathf.Acos(Vector3.Dot(norVec.normalized, temVec.normalized)) * Mathf.Rad2Deg;//計算夾角
             //結果
             if (AttackRange >= curDistance && Angle < 50)

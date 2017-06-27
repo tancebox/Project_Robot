@@ -10,7 +10,6 @@ public class SkillEnemy{
     {
         //初始化各類怪物技能Class
         //SkillPlayerNormalAttack.Instance.init(StageMgr);
-        Debug.Log(StageMgr.GetPlayerObj().name);
         SkillEnemyShoot.Instance.init(StageMgr);
         init();
     }
